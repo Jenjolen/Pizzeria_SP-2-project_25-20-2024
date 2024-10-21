@@ -29,42 +29,6 @@ Som Sælgeren / Admin kan det omhandle ordreoversigt, ( Lav pizza, Se pizza list
 
 
 
-#### **ER-DIAGRAM**
-
-**Pizza**:
-
-* pizza\_id (PK)
-* name
-* description
-* toppings
-* price
-
-**User**:
-
-* user\_id (PK)
-* name
-* age
-* gender
-* email
-
-**Order**:
-
-* order\_id (PK)
-* order\_date
-* order\_price
-* user\_id (FK to User)
-* order\_item\_list
-
-**Order\_list**:
-
-* order\_item\_id (PK)
-* order\_id (FK to Order)
-* pizza\_id (FK to Pizza)
-* quantity
-* price
-
-#### 
-
 #### **Request Body and Response Formats**
 
 
@@ -93,33 +57,6 @@ Som Sælgeren / Admin kan det omhandle ordreoversigt, ( Lav pizza, Se pizza list
 }
 
 
-
-Order
-
-{
-
-	"order\_id": Number,  
- 	"order\_date": Number  
- 	"total\_price": number,  
- 	"user\_id(fk)": number,
-
-	“order\_item\_list”: 
-
-}
-
-{
-
-"order\_item\_id": Number,
-
-"order\_id": Number,      // Foreign key to Order
-
-"pizza\_id": Number,      // Foreign key to Pizza
-
-"quantity": Number,
-
-"pizza\_price": Number
-
-}
 
 **Order:**
 

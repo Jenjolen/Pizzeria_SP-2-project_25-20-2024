@@ -1,14 +1,14 @@
 # **PIZZERIA REST API Documentation**
 
-
+ 
 
 Formålet med vores API endpoints er at skabe en lille illusion om et website med en webshop, der skal fungere som en pizza butik. Vi vil derfor gerne kunne indlæse en pizza liste med alle pizzaer. og foretage crud operationer for rollerne:
 
-Som Kunde / User vil det omhandle bl.a  (Se pizzaer, Køb pizza, Slet pizza fra indkøbskurv).
+Som Kunde / User vil det omhandle bl.a  (Se pizzaer, Køb pizza, Slet pizza fra indkøbskurv).  
 
 Som Sælgeren / Admin kan det omhandle ordreoversigt, ( Lav pizza, Se pizza liste, Slette pizza, Redigere / Opdatere pizza \- og ved nogle af disse operationer også ordne flere pizzaer på en gang) Nu får vi se hvor meget vi når\!
 
-
+ 
 
 | Method | URL | Request Body (JSON) | Response (JSON) | Error (e) |
 | :---- | :---- | :---- | :---- | :---- |
@@ -27,72 +27,72 @@ Som Sælgeren / Admin kan det omhandle ordreoversigt, ( Lav pizza, Se pizza list
 | **UPDATE** | /api/pizza/{id} | pizza (1) | pizza (1) | 404 not found (hvis pizzaen ikke findes), fejl hvis formatet på request er forkert |
 | **UPDATE** | /api/pizzas | \[pizza1,pizza2, ...\](1) | \[pizza1,pizza2, ...\](1) | 404 not found (hvis pizzaerne ikke findes), fejl hvis formatet på request er forkert |
 
-
+ 
 
 #### **ER-DIAGRAM**
 
 **Pizza**:
 
-* pizza\_id (PK)
-* name
-* description
-* toppings
+* pizza\_id (PK)  
+* name  
+* description  
+* toppings  
 * price
 
 **User**:
 
-* user\_id (PK)
-* name
-* age
-* gender
+* user\_id (PK)  
+* name  
+* age  
+* gender  
 * email
 
 **Order**:
 
-* order\_id (PK)
-* order\_date
-* order\_price
-* user\_id (FK to User)
+* order\_id (PK)  
+* order\_date  
+* order\_price  
+* user\_id (FK to User)  
 * order\_item\_list
 
 **Order\_list**:
 
-* order\_item\_id (PK)
-* order\_id (FK to Order)
-* pizza\_id (FK to Pizza)
-* quantity
+* order\_item\_id (PK)  
+* order\_id (FK to Order)  
+* pizza\_id (FK to Pizza)  
+* quantity  
 * price
 
 #### 
 
-#### **Request Body and Response Formats**
+#### **Request Body and Response Formats**      	
 
-
+ 
 
 (1) User format (don’t provide ID, for POST)
 
-**User:**
+ **User:**
 
-{
+ {
 
 	"id": Number,  
  	"age": Number,  
  	"name": String,  
  	"gender": String \[“Male” | “Female” | “Other”\],  
  	"email": String (email)  
-}
+   }
 
 **Pizza:**
 
-{
+ {
 
 	"id": Number,  
  	"name": String,  
  	"toppings”: String,  
  	"price”: Number  
-}
+   }
 
-
+ 
 
 Order
 
@@ -105,19 +105,19 @@ Order
 
 	“order\_item\_list”: 
 
-}
+   }
 
 {
 
-"order\_item\_id": Number,
+  "order\_item\_id": Number,
 
-"order\_id": Number,      // Foreign key to Order
+  "order\_id": Number,      // Foreign key to Order
 
-"pizza\_id": Number,      // Foreign key to Pizza
+  "pizza\_id": Number,      // Foreign key to Pizza
 
-"quantity": Number,
+  "quantity": Number,
 
-"pizza\_price": Number
+  "pizza\_price": Number
 
 }
 
@@ -169,7 +169,7 @@ Order
 
 { status : statusCode, "msg": "Explains the problem" }
 
-
+ 
 
 ●       (e1) : { status : 404, "msg": "No content found for this request" }
 
@@ -178,6 +178,3 @@ Order
 ●       (e3) : { status : 401, "msg": "No user is logged in" } (for example, no user is currently logged in)
 
 ●       (e4) : { status : 403, "msg": "Current user does not have access rights to this content" } (for example, a customer wants to delete a pizza of the pizzerias menu \- which is only reserved for the administrators)
-
-
-Jaja Ding Dong 🎶 - [Eurovision Song Contest: The Story of Fire Saga](https://www.youtube.com/watch?v=PlBUH8zMZng&pp=ygUOamFqYSBkaW5nIGRvbmc%3D)

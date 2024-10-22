@@ -55,10 +55,6 @@ public class Pizza {
         return Objects.hash(name);
     }
 
-    public String getTopping() {
-        return "";
-    }
-
     public Pizza (PizzaDTO pizzaDTO) {
         this.id = pizzaDTO.getId();
         this.name = pizzaDTO.getName();

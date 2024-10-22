@@ -1,5 +1,6 @@
 package dat.entities;
 
+import dat.security.entities.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,5 +49,9 @@ public class Order {
     @Override
     public int hashCode() {
         return Objects.hash(orderDate);
+    }
+
+    public enum PizzaType {
+        CHILDSIZE, CALZONE, FAMILY, PARTY, REGULAR, SICILIAN, CHEESESTUFFED_CRUST;
     }
 }

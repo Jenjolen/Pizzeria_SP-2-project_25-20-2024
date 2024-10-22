@@ -16,7 +16,7 @@ public class OrderDTO {
     private Integer id;
     private String orderDate;
     private Double orderPrice;
-    //private Order.PizzaType pizzaType;
+    private Order.PizzaType pizzaType;
     private Set<PizzaDTO> pizzas = new HashSet<>();
 
     public OrderDTO(Order order){

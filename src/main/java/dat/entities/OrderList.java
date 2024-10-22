@@ -34,6 +34,13 @@ public class OrderList {
     @Column(name = "price", nullable = false)
     private Double price;
 
+    public OrderList(Order order, Pizza pizza, Integer quantity, Double price) {
+        this.order = order;
+        this.pizza = pizza;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
     // Equals and hashCode methods
     @Override
     public boolean equals(Object o) {

@@ -3,12 +3,14 @@ package dat.dtos;
 import dat.entities.Pizza;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
+@Setter
 
 public class PizzaDTO{
     private Integer id;

@@ -14,8 +14,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
-import static dat.config.Populate.getCalRooms;
-import static dat.config.Populate.getHilRooms;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
 public class HotelDAO implements IDAO<HotelDTO, Integer> {

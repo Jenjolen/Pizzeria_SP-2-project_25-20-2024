@@ -5,6 +5,7 @@ import dat.security.entities.User;
 import dk.bugelhartmann.UserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
+@Setter
 public class OrderDTO {
     private Integer id;
     private String orderDate;

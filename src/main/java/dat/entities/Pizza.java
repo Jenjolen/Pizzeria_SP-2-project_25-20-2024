@@ -1,5 +1,6 @@
 package dat.entities;
 
+import dat.dtos.PizzaDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Entity
+@Setter
 @Table(name = "pizza")
 public class Pizza {
 
@@ -56,4 +58,13 @@ public class Pizza {
     public String getTopping() {
         return "";
     }
+
+    public Pizza (PizzaDTO pizzaDTO) {
+        this.id = pizzaDTO.getId();
+        this.name = pizzaDTO.getName();
+        this.description = pizzaDTO.getDescription();
+        this.toppings = pizzaDTO.getTopping();
+        this.price = pizzaDTO.getPrice();
+    }
+
 }

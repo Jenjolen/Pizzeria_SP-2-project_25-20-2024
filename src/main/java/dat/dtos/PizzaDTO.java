@@ -24,7 +24,7 @@ public class PizzaDTO{
         this.id = pizza.getId();
         this.name = pizza.getName();
         this.description = pizza.getDescription();
-        this.topping = pizza.getTopping();
+        //this.topping = pizza.getTopping();
         this.price = pizza.getPrice();
 
 

@@ -24,10 +24,7 @@ public class PizzaDTO{
         this.description = pizza.getDescription();
         this.topping = pizza.getTopping();
         this.price = pizza.getPrice();
-//        if (pizza.getPizza() != null)
-//        {
-//            pizza.getPizza().forEach( pizza -> pizzas.add(new PizzaDTO(pizza)));
-//        }
+
 
     }
 

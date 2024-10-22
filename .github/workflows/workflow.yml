@@ -36,4 +36,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/sp-2:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hotel_api:latest

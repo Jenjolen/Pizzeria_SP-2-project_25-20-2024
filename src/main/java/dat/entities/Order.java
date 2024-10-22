@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import dat.security.entities.User;
 
 import java.util.HashSet;
 import java.util.Objects;

@@ -16,7 +16,7 @@ public class PizzaDTO{
     private String description;
     private String topping;
     private Double price;
-    private Pizza.PizzaType pizzaType;
+
 
     public PizzaDTO(Pizza pizza){
         this.id = pizza.getId();
@@ -24,14 +24,14 @@ public class PizzaDTO{
         this.description = pizza.getDescription();
         this.topping = pizza.getTopping();
         this.price = pizza.getPrice();
-        if (pizza.getPizza() != null)
-        {
-            pizza.getPizza().forEach( pizza -> pizzas.add(new PizzaDTO(pizza)));
-        }
+//        if (pizza.getPizza() != null)
+//        {
+//            pizza.getPizza().forEach( pizza -> pizzas.add(new PizzaDTO(pizza)));
+//        }
 
     }
 
-    public HotelDTO(String name, String description, String topping, Double price)
+    public PizzaDTO(String name, String description, String topping, Double price)
     {
         this.name = name;
         this.description = description;

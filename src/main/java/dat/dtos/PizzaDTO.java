@@ -1,5 +1,6 @@
 package dat.dtos;
 
+import dat.entities.Pizza;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

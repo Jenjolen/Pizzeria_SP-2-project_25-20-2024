@@ -30,9 +30,22 @@ public class User implements Serializable, ISecurityUser {
     @Basic(optional = false)
     @Column(name = "username", length = 25)
     private String username;
+
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
+
+    @Basic(optional = false)
+    @Column(name = "age")
+    private Integer age; // Nytt felt til alder
+
+    @Basic(optional = false)
+    @Column(name = "gender")
+    private String gender; // Nytt felt til køn
+
+    @Basic(optional = false)
+    @Column(name = "email", unique = true)
+    private String email; // Nytt felt til e-mail
 
     @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "user_name", referencedColumnName = "username")}, inverseJoinColumns = {@JoinColumn(name = "role_name", referencedColumnName = "name")})
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -81,4 +94,3 @@ public class User implements Serializable, ISecurityUser {
                 });
     }
 }
-

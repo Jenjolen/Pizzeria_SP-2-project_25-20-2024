@@ -29,6 +29,7 @@ public class HotelController implements IController<HotelDTO, Integer> {
         // response
         ctx.res().setStatus(200);
         ctx.json(hotelDTO, HotelDTO.class);
+
     }
 
     @Override

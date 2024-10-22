@@ -4,30 +4,48 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-@Entity
-@Table(name = "orders")
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 @Getter
-@Setter
 @NoArgsConstructor
+@Entity
+@Table(name = "order")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
-    private Integer orderId;
+    @Column(name = "order_id", nullable = false, unique = true)
+    private Integer id;
 
-    @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    @Setter
+    @Column(name = "order_date", nullable = false)
+    private String orderDate;
 
-    @Column(name = "order_price")
-    private double orderPrice;
+    @Setter
+    @Column(name = "order_price", nullable = false)
+    private Double orderPrice;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<OrderList> orderLists = new HashSet<>();
+
+    // Equals and hashCode methods
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(orderDate, order.orderDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(orderDate);
+    }
 }

@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
-public class HotelDTO {
+public class
+HotelDTO {
 
     private Integer id;
     private String hotelName;

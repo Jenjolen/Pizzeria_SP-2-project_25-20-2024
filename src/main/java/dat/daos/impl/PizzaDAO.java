@@ -1,5 +1,6 @@
 package dat.daos.impl;
 
+import dat.config.Populate;
 import dat.daos.IDAO;
 import dat.dtos.HotelDTO;
 import dat.dtos.PizzaDTO;
@@ -50,6 +51,11 @@ public class PizzaDAO implements IDAO<PizzaDTO, Integer> {
             em.getTransaction().commit();
             return new PizzaDTO(pizza);
         }
+    }
+
+    public void populate () {
+        Populate populator= new Populate();
+        populator.populate();
     }
 
     @Override

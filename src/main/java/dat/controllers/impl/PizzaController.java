@@ -8,6 +8,7 @@ import dat.entities.Pizza;
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PizzaController implements IController<PizzaDTO, Integer> {
@@ -49,6 +50,26 @@ public class PizzaController implements IController<PizzaDTO, Integer> {
         // response
         ctx.res().setStatus(201);
         ctx.json(pizzaDTO, PizzaDTO.class);
+    }
+
+    public void createMultiple(Context ctx) {
+        // request
+            List<PizzaDTO> pizzaDTOS = new ArrayList<>();
+        for (int i = 0; i < ctx.body().length(); i++) {
+            PizzaDTO jsonRequest = ctx.bodyAsClass(PizzaDTO.class);
+            dao.create(jsonRequest);
+            ctx.json(jsonRequest, PizzaDTO.class);
+            pizzaDTOS.add(jsonRequest);
+        }
+
+        if (pizzaDTOS.size() == ctx.body().length())
+        ctx.res().setStatus(201);
+    }
+
+    public void populate(Context ctx) {
+        dao.populate();
+        ctx.res().setStatus(200);
+        ctx.json("{\"message\": \"Database has been populated\"}");
     }
 
     @Override

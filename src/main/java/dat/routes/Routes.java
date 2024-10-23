@@ -13,8 +13,8 @@ public class Routes {
     public EndpointGroup getRoutes() {
         return () -> {
             path("/pizzas", pizzaRoute.getRoutes());
-            path("/hotels", hotelRoute.getRoutes());
-            path("/rooms", roomRoute.getRoutes());
+//            path("/hotels", hotelRoute.getRoutes());
+//            path("/rooms", roomRoute.getRoutes());
         };
     }
 }

@@ -1,7 +1,10 @@
 package dat.daos.impl;
 
 import dat.dtos.OrderDTO;
+import dat.dtos.OrderLineDTO;
 import dat.entities.Order;
+import dat.entities.OrderLine;
+import dat.security.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -27,15 +30,13 @@ public class OrderDAO {
     public OrderDTO create(OrderDTO orderDTO) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Order order = new Order(); // Opret en ny Order
-        // Konverter OrderDTO til Order
-        order.setOrderDate(orderDTO.getOrderDate());
-        order.setOrderPrice(orderDTO.getOrderPrice());
-        // ... sæt andre felter ...
-        em.persist(order); // Gem order i databasen
+        Order order = new Order(orderDTO);
+        User user = em.find(User.class, orderDTO.getUser().getUsername());
+        order.setUser(user);
+        em.persist(order);
         em.getTransaction().commit();
         em.close();
-        return new OrderDTO(order); // Returner den nye OrderDTO
+        return new OrderDTO(order);
     }
 
     public OrderDTO read(int id) {
@@ -58,16 +59,19 @@ public class OrderDAO {
         em.getTransaction().begin();
         Order order = em.find(Order.class, id);
         if (order != null) {
-            // Opdater felter
             order.setOrderDate(orderDTO.getOrderDate());
             order.setOrderPrice(orderDTO.getOrderPrice());
-            // ... opdater andre felter ...
-            em.merge(order); // Gem ændringerne
+            order.getOrderLines().clear();
+            for (OrderLineDTO orderLineDTO : orderDTO.getOrderLines()) {
+                order.getOrderLines().add(new OrderLine(orderLineDTO));
+            }
+            User user = em.find(User.class, orderDTO.getUser().getUsername());
+            order.setUser(user);
+            em.merge(order);
         }
         em.getTransaction().commit();
         em.close();
-        return new OrderDTO(order); // Returner den opdaterede OrderDTO
-    }
+        return new OrderDTO(order);}
 
     public void delete(int id) {
         EntityManager em = emf.createEntityManager();
@@ -86,4 +90,5 @@ public class OrderDAO {
         em.close();
         return order != null; // Returner true, hvis order findes
     }
+
 }

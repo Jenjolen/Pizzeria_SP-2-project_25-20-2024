@@ -39,7 +39,13 @@ public class Pizza {
     private Double price;
 
     @OneToMany(mappedBy = "pizza", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<OrderList> orderLists = new HashSet<>();
+    private Set<OrderLine> orderLines = new HashSet<>();
+
+    @Setter
+    @Enumerated(EnumType.STRING)
+    @Column(name = "pizza_type", nullable = false)
+    private PizzaType pizzaType;
+
 
     // Equals and hashCode methods
     @Override
@@ -55,9 +61,6 @@ public class Pizza {
         return Objects.hash(name);
     }
 
-    public String getTopping() {
-        return "";
-    }
 
     public Pizza (PizzaDTO pizzaDTO) {
         this.id = pizzaDTO.getId();
@@ -65,6 +68,12 @@ public class Pizza {
         this.description = pizzaDTO.getDescription();
         this.toppings = pizzaDTO.getTopping();
         this.price = pizzaDTO.getPrice();
+        this.pizzaType = pizzaDTO.getPizzaType();
+    }
+
+
+    public enum PizzaType {
+        CHILDSIZE, FAMILY, PARTY, REGULAR;
     }
 
 }

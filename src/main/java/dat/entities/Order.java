@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import dat.security.entities.User;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -38,7 +37,7 @@ public class Order {
     private User user;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<OrderList> orderLists = new HashSet<>();
+    private Set<OrderLine> orderLines = new HashSet<>();
 
     // Equals and hashCode methods
     @Override
@@ -60,14 +59,7 @@ public class Order {
         this.orderPrice = orderDTO.getOrderPrice();
         UserDTO userDTO = orderDTO.getUser();
         this.user = new User(userDTO.getUsername(), userDTO.getRoles().stream().map(r -> new dat.security.entities.Role(r)).collect(Collectors.toSet()));
-        if (orderDTO.getPizzas() != null) {
-//            TODO: JEG HAR HARDCODED QUANTITY TIL 1, DA DER IKKE ER EN MULIGHED FOR AT INDSÆTTE QUANTITY I DTO ELLER NÅR VI OPRETTER EN PIZZA, DA DET ER UNDERORDNET AT MAN BESTILLER EN PIZZA AF GANGEN - KAN DOG GIVE PROBLEMER VED FX 4 ÉNS PIZZAER
-            orderDTO.getPizzas().forEach(pizza -> orderLists.add(new OrderList(this, new Pizza(pizza), 1, pizza.getPrice())));
-        }
+        this.orderLines = orderDTO.getOrderLines().stream().map(orderLineDTO -> new OrderLine(orderLineDTO)).collect(Collectors.toSet());
     }
 
-
-    public enum PizzaType {
-        CHILDSIZE, CALZONE, FAMILY, PARTY, REGULAR, SICILIAN, CHEESESTUFFED_CRUST;
-    }
 }

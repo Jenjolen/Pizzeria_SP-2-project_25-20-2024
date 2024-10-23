@@ -43,8 +43,35 @@ Authorization: Bearer {{jwt_token}}
 Accept: application/json
 Authorization: Bearer {{jwt_token}}
 
+
+### pizza API
+
+GET {{url}}/pizzas
+
 ###
+
+GET {{url}}/pizzas/1
+
+###
+
+POST {{url}}/pizzas
+Content-Type: application/json
+
+{
+  "name": "Holiday Inn",
+  "description": "Stuttgart",
+  "price": "STANDARD"
+}
+
+###
+
 GET {{url}}/hotels
+
+{
+  "name": "Holiday Inn",
+  "hotelAddress": "Stuttgart",
+  "hotelType": "STANDARD"
+}
 
 ###
 
@@ -55,11 +82,6 @@ GET {{url}}/hotels/2
 POST {{url}}/hotels
 Content-Type: application/json
 
-{
-  "hotelName": "Holiday Inn",
-  "hotelAddress": "Stuttgart",
-  "hotelType": "STANDARD"
-}
 
 ###
 

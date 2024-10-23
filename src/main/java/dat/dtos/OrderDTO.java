@@ -28,16 +28,23 @@ public class OrderDTO {
 
         if (order.getOrderLines() != null)
         {
-            order.getOrderLines().forEach(orderLine -> orderLines.add(new OrderLineDTO(orderLine)));
+            order.getOrderLines().forEach(orderLine -> this.orderLines.add(new OrderLineDTO(orderLine)));
         }
     }
 
-    public OrderDTO(Integer id, String orderDate, Double orderPrice, UserDTO user)
+    public OrderDTO(String orderDate, Double orderPrice, UserDTO user)
     {
-        this.id = id;
         this.orderDate = orderDate;
         this.orderPrice = orderPrice;
         this.user = user;
 
     }
+
+    public OrderDTO(String orderDate, Double orderPrice, UserDTO user, Set<OrderLineDTO> orderLines) {
+        this.orderDate = orderDate;
+        this.orderPrice = orderPrice;
+        this.user = user;
+        this.orderLines = orderLines;
+    }
+
 }

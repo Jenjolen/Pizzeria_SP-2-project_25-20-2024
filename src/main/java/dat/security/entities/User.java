@@ -1,5 +1,6 @@
 package dat.security.entities;
 
+import dk.bugelhartmann.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.mindrot.jbcrypt.BCrypt;
@@ -74,6 +75,11 @@ public class User implements Serializable, ISecurityUser {
     public User(String userName, Set<Role> roleEntityList) {
         this.username = userName;
         this.roles = roleEntityList;
+    }
+
+    public User(UserDTO userDTO) {
+        this.username = userDTO.getUsername();
+        this.password = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
     }
 
     public void addRole(Role role) {

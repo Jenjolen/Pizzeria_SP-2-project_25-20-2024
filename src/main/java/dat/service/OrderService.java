@@ -3,6 +3,7 @@ package dat.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import dat.daos.impl.OrderDAO;
+import dat.dtos.OrderDTO;
 import dat.entities.Order;
 
 import java.io.File;
@@ -31,12 +32,16 @@ public class OrderService {
     }
 
     // Save an order to the database (using OrderDAO)
-    public Order saveOrderToDatabase(Order order) {
-        return orderDAO.create(order);
+    public Order saveOrderToDatabase(OrderDTO orderDTO) {
+
+        orderDAO.create(orderDTO);
+        Order order = new Order(orderDTO);
+        return order;
+
     }
 
     // Get all orders from the database
-    public List<Order> getAllOrdersFromDatabase() {
-        return orderDAO.readAll();
+    public List<OrderDTO> getAllOrdersFromDatabase() {
+        return (orderDAO.readAll());
     }
 }

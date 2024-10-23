@@ -10,7 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Populate {
-    public static void main(String[] args) {
+
+    public void populate() {
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
 
         try (var em = emf.createEntityManager()) {
@@ -76,7 +77,6 @@ public class Populate {
             order2.setOrderLines(orderLines2);
 
 
-
             // Gem entiteterne
             em.persist(user1);
             em.persist(user2);
@@ -90,4 +90,5 @@ public class Populate {
             em.getTransaction().commit();
         }
     }
+
 }

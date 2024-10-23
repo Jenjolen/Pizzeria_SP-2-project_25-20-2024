@@ -1,12 +1,13 @@
 package dat.config;
 
 import dat.entities.Order;
-import dat.entities.OrderList;
+import dat.entities.OrderLine;
 import dat.entities.Pizza;
 import dat.security.entities.User; // Opdateret import
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Populate {
     public static void main(String[] args) {
@@ -32,12 +33,14 @@ public class Populate {
             pizza1.setDescription("Classic pizza with tomato and mozzarella.");
             pizza1.setToppings("Tomato, Mozzarella, Basil");
             pizza1.setPrice(75.0);
+            pizza1.setPizzaType(Pizza.PizzaType.REGULAR);
 
             Pizza pizza2 = new Pizza();
             pizza2.setName("Pepperoni");
             pizza2.setDescription("Spicy pepperoni with cheese.");
             pizza2.setToppings("Tomato, Mozzarella, Pepperoni");
             pizza2.setPrice(85.0);
+            pizza2.setPizzaType(Pizza.PizzaType.CHILDSIZE);
 
             // Opret ordrer
             Order order1 = new Order();
@@ -50,18 +53,29 @@ public class Populate {
             order2.setOrderPrice(160.0);
             order2.setUser(user2);
 
-            // Opret orderlister
-            OrderList orderList1 = new OrderList();
-            orderList1.setOrder(order1);
-            orderList1.setPizza(pizza1);
-            orderList1.setQuantity(2);
-            orderList1.setPrice(150.0);
 
-            OrderList orderList2 = new OrderList();
-            orderList2.setOrder(order2);
-            orderList2.setPizza(pizza2);
-            orderList2.setQuantity(2);
-            orderList2.setPrice(160.0);
+            // Opret orderLineer
+            Set<OrderLine> orderLines1 = new HashSet<>();
+            OrderLine orderLine1 = new OrderLine();
+            orderLine1.setOrder(order1);
+            orderLine1.setPizza(pizza1);
+            orderLine1.setQuantity(2);
+            orderLine1.setPrice(150.0);
+            orderLines1.add(orderLine1);
+
+
+            Set<OrderLine> orderLines2 = new HashSet<>();
+            OrderLine orderLine2 = new OrderLine();
+            orderLine2.setOrder(order2);
+            orderLine2.setPizza(pizza2);
+            orderLine2.setQuantity(2);
+            orderLine2.setPrice(160.0);
+            orderLines2.add(orderLine2);
+
+            order1.setOrderLines(orderLines1);
+            order2.setOrderLines(orderLines2);
+
+
 
             // Gem entiteterne
             em.persist(user1);
@@ -70,8 +84,8 @@ public class Populate {
             em.persist(pizza2);
             em.persist(order1);
             em.persist(order2);
-            em.persist(orderList1);
-            em.persist(orderList2);
+            em.persist(orderLine1);
+            em.persist(orderLine2);
 
             em.getTransaction().commit();
         }

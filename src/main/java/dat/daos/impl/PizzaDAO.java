@@ -61,6 +61,7 @@ public class PizzaDAO implements IDAO<PizzaDTO, Integer> {
             p.setDescription(pizzaDTO.getDescription());
             p.setToppings(pizzaDTO.getTopping());
             p.setPrice(pizzaDTO.getPrice());
+            p.setPizzaType(pizzaDTO.getPizzaType());
             Pizza mergedPizza = em.merge(p);
             em.getTransaction().commit();
             return mergedPizza != null ? new PizzaDTO(mergedPizza) : null;

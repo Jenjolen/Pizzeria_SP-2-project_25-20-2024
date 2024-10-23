@@ -18,24 +18,27 @@ public class PizzaDTO{
     private String description;
     private String topping;
     private Double price;
+    private Pizza.PizzaType pizzaType;
 
 
     public PizzaDTO(Pizza pizza){
         this.id = pizza.getId();
         this.name = pizza.getName();
         this.description = pizza.getDescription();
-        //this.topping = pizza.getTopping();
+        this.topping = pizza.getToppings();
         this.price = pizza.getPrice();
+        this.pizzaType = pizza.getPizzaType();
 
 
     }
 
-    public PizzaDTO(String name, String description, String topping, Double price)
+    public PizzaDTO(String name, String description, String topping, Double price, Pizza.PizzaType pizzaType)
     {
         this.name = name;
         this.description = description;
         this.topping = topping;
         this.price = price;
+        this.pizzaType = pizzaType;
     }
 
     public static List<PizzaDTO> toPizzaDTOList(List<Pizza> pizzas) {

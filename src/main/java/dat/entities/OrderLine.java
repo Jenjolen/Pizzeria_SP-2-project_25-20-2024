@@ -1,5 +1,6 @@
 package dat.entities;
 
+import dat.dtos.OrderLineDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.Objects;
 @Entity
 @Setter
 @Table(name = "order_list")
-public class OrderList {
+public class OrderLine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +36,19 @@ public class OrderList {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    public OrderList(Order order, Pizza pizza, Integer quantity, Double price) {
+    public OrderLine(Order order, Pizza pizza, Integer quantity, Double price) {
         this.order = order;
         this.pizza = pizza;
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public OrderLine(OrderLineDTO orderLineDTO) {
+        this.id = orderLineDTO.getId();
+        this.order = orderLineDTO.getOrder();
+        this.pizza = orderLineDTO.getPizza();
+        this.quantity = orderLineDTO.getQuantity();
+        this.price = orderLineDTO.getPrice();
     }
 
     // Equals and hashCode methods
@@ -47,8 +56,8 @@ public class OrderList {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderList orderList = (OrderList) o;
-        return Objects.equals(order, orderList.order) && Objects.equals(pizza, orderList.pizza);
+        OrderLine orderLine = (OrderLine) o;
+        return Objects.equals(order, orderLine.order) && Objects.equals(pizza, orderLine.pizza);
     }
 
     @Override

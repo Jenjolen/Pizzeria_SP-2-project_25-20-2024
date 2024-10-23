@@ -62,12 +62,14 @@ public class Pizza {
     }
 
     public Pizza (PizzaDTO pizzaDTO) {
+
         this.id = pizzaDTO.getId();
         this.name = pizzaDTO.getName();
         this.description = pizzaDTO.getDescription();
         this.toppings = pizzaDTO.getTopping();
         this.price = pizzaDTO.getPrice();
         this.pizzaType = pizzaDTO.getPizzaType();
+
     }
 
 

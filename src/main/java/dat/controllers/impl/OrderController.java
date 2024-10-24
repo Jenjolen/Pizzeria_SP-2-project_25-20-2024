@@ -3,7 +3,9 @@ package dat.controllers.impl;
 import dat.config.HibernateConfig;
 import dat.controllers.IController;
 import dat.daos.impl.OrderDAO;
+import dat.daos.impl.OrderLineDAO;
 import dat.dtos.OrderDTO;
+import dat.dtos.OrderLineDTO;
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -12,6 +14,7 @@ import java.util.List;
 public class OrderController implements IController<OrderDTO, Integer> {
 
     private final OrderDAO dao;
+    private final OrderLineDAO orderLineDAO = OrderLineDAO.getInstance(HibernateConfig.getEntityManagerFactory());
 
     public OrderController() {
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
@@ -56,6 +59,32 @@ public class OrderController implements IController<OrderDTO, Integer> {
         ctx.res().setStatus(204);
     }
 
+    public void addOrderLine(Context ctx, Integer orderId) {
+        OrderLineDTO orderLineDTO = orderLineDAO.create(ctx.bodyAsClass(OrderLineDTO.class));
+        OrderDTO orderDTO = dao.read(orderId);
+        orderDTO.getOrderLines().add(orderLineDTO);
+        dao.update(orderId, orderDTO);
+        ctx.res().setStatus(201);
+        ctx.json(orderDTO, OrderDTO.class);
+    }
+
+    public void updateOrderLine(Context ctx, Integer orderId, Integer orderLineId) {
+        OrderLineDTO orderLineDTO = orderLineDAO.update(orderLineId, ctx.bodyAsClass(OrderLineDTO.class));
+        OrderDTO orderDTO = dao.read(orderId);
+        dao.update(orderId, orderDTO);
+        ctx.res().setStatus(200);
+        ctx.json(orderDTO, OrderDTO.class);
+    }
+
+    public void deleteOrderLine(Context ctx, Integer orderId, Integer orderLineId) {
+        OrderDTO orderDTO = dao.read(orderId);
+        orderDTO.getOrderLines().removeIf(orderLineDTO -> orderLineDTO.getId().equals(orderLineId));
+        dao.update(orderId, orderDTO);
+        ctx.res().setStatus(204);
+    }
+
+
+
     @Override
     public boolean validatePrimaryKey(Integer integer) {
         return dao.validatePrimaryKey(integer);
@@ -68,4 +97,8 @@ public class OrderController implements IController<OrderDTO, Integer> {
                 .check(o -> o.getOrderPrice() != null, "Order price must be set")
                 .get();
     }
+
+
+
+
 }

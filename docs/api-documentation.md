@@ -49,16 +49,16 @@ Som Sælgeren / Admin kan det omhandle ordreoversigt, ( Lav pizza, Se pizza list
 
 **Order**:
 
-* order\_id (PK)  
-* order\_date  
-* order\_price  
+* orders\_id (PK)  
+* orders\_date  
+* orders\_price  
 * user\_id (FK to User)  
-* order\_item\_list
+* orders\_item\_list
 
 **Order\_list**:
 
-* order\_item\_id (PK)  
-* order\_id (FK to Order)  
+* orders\_item\_id (PK)  
+* orders\_id (FK to Order)  
 * pizza\_id (FK to Pizza)  
 * quantity  
 * price
@@ -98,20 +98,20 @@ Order
 
 {
 
-	"order\_id": Number,  
- 	"order\_date": Number  
+	"orders\_id": Number,  
+ 	"orders\_date": Number  
  	"total\_price": number,  
  	"user\_id(fk)": number,
 
-	“order\_item\_list”: 
+	“orders\_item\_list”: 
 
    }
 
 {
 
-  "order\_item\_id": Number,
+  "orders\_item\_id": Number,
 
-  "order\_id": Number,      // Foreign key to Order
+  "orders\_id": Number,      // Foreign key to Order
 
   "pizza\_id": Number,      // Foreign key to Pizza
 
@@ -125,19 +125,19 @@ Order
 
 {
 
-	"order\_id": Number,
+	"orders\_id": Number,
 
- 	"order\_date": Number,
+ 	"orders\_date": Number,
 
  	"total\_price": Number,
 
  	"user\_id": Number,      // Foreign key to User
 
-	"order\_item\_list": \[
+	"orders\_item\_list": \[
 
 		{
 
-			"order\_item\_id": Number,
+			"orders\_item\_id": Number,
 
 			"pizza\_id": Number,  // Foreign key to Pizza
 
@@ -149,7 +149,7 @@ Order
 
 		{
 
-			"order\_item\_id": Number,
+			"orders\_item\_id": Number,
 
 			"pizza\_id": Number,  // Foreign key to Pizza
 

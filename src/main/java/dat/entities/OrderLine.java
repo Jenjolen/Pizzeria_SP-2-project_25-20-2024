@@ -22,7 +22,7 @@ public class OrderLine {
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    private Orders orders;
 
     @ManyToOne
     @JoinColumn(name = "pizza_id", nullable = false)
@@ -36,8 +36,8 @@ public class OrderLine {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    public OrderLine(Order order, Pizza pizza, Integer quantity, Double price) {
-        this.order = order;
+    public OrderLine(Orders orders, Pizza pizza, Integer quantity, Double price) {
+        this.orders = orders;
         this.pizza = pizza;
         this.quantity = quantity;
         this.price = price;
@@ -45,7 +45,7 @@ public class OrderLine {
 
     public OrderLine(OrderLineDTO orderLineDTO) {
         this.id = orderLineDTO.getId();
-        this.order = orderLineDTO.getOrder();
+        this.orders = orderLineDTO.getOrders();
         this.pizza = orderLineDTO.getPizza();
         this.quantity = orderLineDTO.getQuantity();
         this.price = orderLineDTO.getPrice();
@@ -57,11 +57,11 @@ public class OrderLine {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderLine orderLine = (OrderLine) o;
-        return Objects.equals(order, orderLine.order) && Objects.equals(pizza, orderLine.pizza);
+        return Objects.equals(orders, orderLine.orders) && Objects.equals(pizza, orderLine.pizza);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(order, pizza);
+        return Objects.hash(orders, pizza);
     }
 }

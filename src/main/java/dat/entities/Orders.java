@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Entity
 @Setter
-@Table(name = "order")
-public class Order {
+@Table(name = "orders")
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +37,7 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrderLine> orderLines = new HashSet<>();
 
     // Equals and hashCode methods
@@ -45,8 +45,8 @@ public class Order {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(orderDate, order.orderDate);
+        Orders orders = (Orders) o;
+        return Objects.equals(orderDate, orders.orderDate);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Order {
         return Objects.hash(orderDate);
     }
 
-    public Order (OrderDTO orderDTO) {
+    public Orders(OrderDTO orderDTO) {
         this.id = orderDTO.getId();
         this.orderDate = orderDTO.getOrderDate();
         this.orderPrice = orderDTO.getOrderPrice();

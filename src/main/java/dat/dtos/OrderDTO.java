@@ -1,6 +1,6 @@
 package dat.dtos;
 
-import dat.entities.Order;
+import dat.entities.Orders;
 import dk.bugelhartmann.UserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,15 +20,15 @@ public class OrderDTO {
     private Set<OrderLineDTO> orderLines = new HashSet<>();
     private UserDTO user;
 
-    public OrderDTO(Order order) {
-        this.id = order.getId();
-        this.orderDate = order.getOrderDate();
-        this.orderPrice = order.getOrderPrice();
-        this.user = new UserDTO(order.getUser().getUsername(), order.getUser().getRoles().stream().map(r -> r.getRoleName()).collect(Collectors.toSet()));
+    public OrderDTO(Orders orders) {
+        this.id = orders.getId();
+        this.orderDate = orders.getOrderDate();
+        this.orderPrice = orders.getOrderPrice();
+        this.user = new UserDTO(orders.getUser().getUsername(), orders.getUser().getRoles().stream().map(r -> r.getRoleName()).collect(Collectors.toSet()));
 
-        if (order.getOrderLines() != null)
+        if (orders.getOrderLines() != null)
         {
-            order.getOrderLines().forEach(orderLine -> this.orderLines.add(new OrderLineDTO(orderLine)));
+            orders.getOrderLines().forEach(orderLine -> this.orderLines.add(new OrderLineDTO(orderLine)));
         }
     }
 

@@ -1,9 +1,10 @@
 package dat.daos.impl;
 
 import dat.dtos.OrderLineDTO;
-import dat.entities.Order;
-import dat.entities.OrderLine;
+import dat.entities.Orders;
 import dat.entities.Pizza;
+import dat.security.entities.User;
+import dat.security.entities.Role;// Importer User
 import dat.config.HibernateConfig;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -24,20 +25,51 @@ public class OrderLineDAOTest {
         emf = HibernateConfig.getEntityManagerFactory(); // Hent EntityManagerFactory
         em = emf.createEntityManager(); // Opret EntityManager
         orderLineDAO = OrderLineDAO.getInstance(emf); // Hent instans af OrderLineDAO
+
+        // Opret testdata for User, Orders og Pizza
+        em.getTransaction().begin();
+
+        // Opret bruger
+        User user = new User();
+        user.setUsername("testUser");
+        user.setAge(25);
+        user.setEmail("test@example.com");
+        // Tilføj eventuelle roller til brugeren her, hvis nødvendigt
+        em.persist(user); // Gem bruger i databasen
+
+        // Opret ordre
+        Orders order = new Orders();
+        order.setOrderDate("2024-10-25");
+        order.setOrderPrice(0.0);
+        order.setUser(user); // Sæt den oprettede bruger
+        em.persist(order); // Gem ordre i databasen
+
+        // Opret pizza
+        Pizza pizza = new Pizza();
+        pizza.setName("Test Pizza");
+        pizza.setPrice(19.99);
+        pizza.setDescription("Delicious test pizza");
+        pizza.setPizzaType(Pizza.PizzaType.REGULAR); // Sæt pizzaType til en enum værdi
+        em.persist(pizza); // Gem pizza i databasen
+
+        em.getTransaction().commit();
     }
 
     @Test
     public void testCreate() {
         OrderLineDTO orderLineDTO = new OrderLineDTO();
-        // Sæt de nødvendige værdier for orderLineDTO
         orderLineDTO.setQuantity(2);
         orderLineDTO.setPrice(19.99);
-        orderLineDTO.setOrder(new Order()); // Antag at du har en Order med ID
-        orderLineDTO.setPizza(new Pizza()); // Antag at du har en Pizza med ID
 
-        em.getTransaction().begin(); // Start transaktionen
+        // Hent den oprettede ordre og pizza fra databasen
+        Orders order = em.find(Orders.class, 1); // Antag at ID 1 er den oprettede ordre
+        Pizza pizza = em.find(Pizza.class, 1); // Antag at ID 1 er den oprettede pizza
+        orderLineDTO.setOrders(order);
+        orderLineDTO.setPizza(pizza);
+
+        em.getTransaction().begin();
         OrderLineDTO createdOrderLine = orderLineDAO.create(orderLineDTO);
-        em.getTransaction().commit(); // Commit transaktionen
+        em.getTransaction().commit();
 
         assertNotNull(createdOrderLine);
         assertEquals(orderLineDTO.getQuantity(), createdOrderLine.getQuantity());
@@ -70,8 +102,12 @@ public class OrderLineDAOTest {
         OrderLineDTO orderLineDTO = new OrderLineDTO();
         orderLineDTO.setQuantity(3);
         orderLineDTO.setPrice(25.00);
-        orderLineDTO.setOrder(new Order()); // Sæt en eksisterende Order
-        orderLineDTO.setPizza(new Pizza()); // Sæt en eksisterende Pizza
+
+        // Hent den eksisterende ordre og pizza fra databasen
+        Orders order = em.find(Orders.class, 1); // Antag at ID 1 er den oprettede ordre
+        Pizza pizza = em.find(Pizza.class, 1); // Antag at ID 1 er den oprettede pizza
+        orderLineDTO.setOrders(order);
+        orderLineDTO.setPizza(pizza);
 
         em.getTransaction().begin();
         OrderLineDTO updatedOrderLine = orderLineDAO.update(id, orderLineDTO);

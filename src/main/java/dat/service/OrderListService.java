@@ -1,25 +1,25 @@
 package dat.service;
 
-import dat.entities.Order;
+import dat.entities.Orders;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderListService {
 
-    private List<Order> orders;
+    private List<Orders> orders;
 
     public OrderListService() {
         this.orders = new ArrayList<>();
     }
 
     // Add an order to the list
-    public void addOrder(Order order) {
-        this.orders.add(order);
+    public void addOrder(Orders orders) {
+        this.orders.add(orders);
     }
 
     // Get all orders
-    public List<Order> getOrders() {
+    public List<Orders> getOrders() {
         return this.orders;
     }
 

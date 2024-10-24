@@ -1,6 +1,6 @@
 package dat.dtos;
 
-import dat.entities.Order;
+import dat.entities.Orders;
 import dat.entities.OrderLine;
 import dat.entities.Pizza;
 import lombok.Getter;
@@ -14,13 +14,13 @@ import lombok.Setter;
 public class OrderLineDTO {
 
     private Integer id;
-    private Order order;
+    private Orders orders;
     private Pizza pizza;
     private Integer quantity;
     private Double price;
 
-    public OrderLineDTO(Order order, Pizza pizza, Integer quantity, Double price) {
-        this.order = order;
+    public OrderLineDTO(Orders orders, Pizza pizza, Integer quantity, Double price) {
+        this.orders = orders;
         this.pizza = pizza;
         this.quantity = quantity;
         this.price = price;
@@ -28,7 +28,7 @@ public class OrderLineDTO {
 
     public OrderLineDTO(OrderLine orderLine) {
         this.id = orderLine.getId();
-        this.order = orderLine.getOrder();
+        this.orders = orderLine.getOrders();
         this.pizza = orderLine.getPizza();
         this.quantity = orderLine.getQuantity();
         this.price = orderLine.getPrice();

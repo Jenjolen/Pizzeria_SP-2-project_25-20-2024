@@ -1,16 +1,17 @@
 package dat.config;
 
-import dat.entities.Hotel;
-import dat.entities.Room;
+import dat.entities.*;
 import dat.security.entities.Role;
 import dat.security.entities.User;
-import dat.utils.Utils;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class HibernateConfig {
@@ -34,7 +35,7 @@ public class HibernateConfig {
     }
 
     public static EntityManagerFactory getEntityManagerFactoryForTest() {
-        if (emfTest == null){
+        if (emfTest == null) {
             setTest(true);
             emfTest = createEMF(getTest());  // No DB needed for test
         }
@@ -43,8 +44,9 @@ public class HibernateConfig {
 
     // TODO: IMPORTANT: Add Entity classes here for them to be registered with Hibernate
     private static void getAnnotationConfiguration(Configuration configuration) {
-        configuration.addAnnotatedClass(Hotel.class);
-        configuration.addAnnotatedClass(Room.class);
+        configuration.addAnnotatedClass(Pizza.class);
+        configuration.addAnnotatedClass(Orders.class);
+        configuration.addAnnotatedClass(OrderLine.class);
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Role.class);
     }
@@ -60,7 +62,7 @@ public class HibernateConfig {
             } else if (System.getenv("DEPLOYED") != null) {
                 setDeployedProperties(props);
             } else {
-                props = setDevProperties(props);
+                props = setDevProperties(props); // Denne metode kan nu kaste FileNotFoundException
             }
             configuration.setProperties(props);
             getAnnotationConfiguration(configuration);
@@ -71,8 +73,10 @@ public class HibernateConfig {
             SessionFactory sf = configuration.buildSessionFactory(serviceRegistry);
             EntityManagerFactory emf = sf.unwrap(EntityManagerFactory.class);
             return emf;
-        }
-        catch (Throwable ex) {
+        } catch (FileNotFoundException e) {
+            System.err.println("Configuration file not found: " + e.getMessage());
+            throw new ExceptionInInitializerError(e);
+        } catch (Throwable ex) {
             System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
@@ -97,16 +101,21 @@ public class HibernateConfig {
         return props;
     }
 
-    private static Properties setDevProperties(Properties props) {
-        String DBName = Utils.getPropertyValue("DB_NAME", "config.properties");
-        props.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/" + DBName);
-        props.put("hibernate.connection.username", "postgres");
-        props.put("hibernate.connection.password", "postgres");
+    private static Properties setDevProperties(Properties props) throws FileNotFoundException {
+        String propertyFileName = "config.properties";
+        InputStream input = HibernateConfig.class.getClassLoader().getResourceAsStream(propertyFileName);
+        if (input == null) {
+            throw new FileNotFoundException("Property file '" + propertyFileName + "' not found in the classpath");
+        }
+        try {
+            props.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return props;
     }
 
     private static Properties setTestProperties(Properties props) {
-        //props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         props.put("hibernate.connection.driver_class", "org.testcontainers.jdbc.ContainerDatabaseDriver");
         props.put("hibernate.connection.url", "jdbc:tc:postgresql:15.3-alpine3.18:///test_db");
         props.put("hibernate.connection.username", "postgres");

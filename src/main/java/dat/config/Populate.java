@@ -1,6 +1,6 @@
 package dat.config;
 
-import dat.entities.Order;
+import dat.entities.Orders;
 import dat.entities.OrderLine;
 import dat.entities.Pizza;
 import dat.security.entities.User; // Opdateret import
@@ -44,21 +44,21 @@ public class Populate {
             pizza2.setPizzaType(Pizza.PizzaType.CHILDSIZE);
 
             // Opret ordrer
-            Order order1 = new Order();
-            order1.setOrderDate("2023-10-01");
-            order1.setOrderPrice(150.0);
-            order1.setUser(user1);
+            Orders orders1 = new Orders();
+            orders1.setOrderDate("2023-10-01");
+            orders1.setOrderPrice(150.0);
+            orders1.setUser(user1);
 
-            Order order2 = new Order();
-            order2.setOrderDate("2023-10-02");
-            order2.setOrderPrice(160.0);
-            order2.setUser(user2);
+            Orders orders2 = new Orders();
+            orders2.setOrderDate("2023-10-02");
+            orders2.setOrderPrice(160.0);
+            orders2.setUser(user2);
 
 
             // Opret orderLineer
             Set<OrderLine> orderLines1 = new HashSet<>();
             OrderLine orderLine1 = new OrderLine();
-            orderLine1.setOrder(order1);
+            orderLine1.setOrders(orders1);
             orderLine1.setPizza(pizza1);
             orderLine1.setQuantity(2);
             orderLine1.setPrice(150.0);
@@ -67,14 +67,14 @@ public class Populate {
 
             Set<OrderLine> orderLines2 = new HashSet<>();
             OrderLine orderLine2 = new OrderLine();
-            orderLine2.setOrder(order2);
+            orderLine2.setOrders(orders2);
             orderLine2.setPizza(pizza2);
             orderLine2.setQuantity(2);
             orderLine2.setPrice(160.0);
             orderLines2.add(orderLine2);
 
-            order1.setOrderLines(orderLines1);
-            order2.setOrderLines(orderLines2);
+            orders1.setOrderLines(orderLines1);
+            orders2.setOrderLines(orderLines2);
 
 
             // Gem entiteterne
@@ -82,8 +82,8 @@ public class Populate {
             em.persist(user2);
             em.persist(pizza1);
             em.persist(pizza2);
-            em.persist(order1);
-            em.persist(order2);
+            em.persist(orders1);
+            em.persist(orders2);
             em.persist(orderLine1);
             em.persist(orderLine2);
 

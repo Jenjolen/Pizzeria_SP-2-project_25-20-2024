@@ -1,10 +1,9 @@
 package dat.daos.impl;
 
 import dat.dtos.OrderLineDTO;
-import dat.entities.Order;
+import dat.entities.Orders;
 import dat.entities.OrderLine;
 import dat.entities.Pizza;
-import dat.security.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -32,13 +31,13 @@ public class OrderLineDAO {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         OrderLine orderLine = new OrderLine(orderLineDTO);
-        Order order = em.find(Order.class, orderLineDTO.getOrder().getId());
+        Orders orders = em.find(Orders.class, orderLineDTO.getOrders().getId());
         Pizza pizza = em.find(Pizza.class, orderLineDTO.getPizza().getId());
-        orderLine.setOrder(order);
+        orderLine.setOrders(orders);
         orderLine.setPizza(pizza);
-        order.getOrderLines().add(orderLine);
+        orders.getOrderLines().add(orderLine);
         em.persist(orderLine);
-        em.merge(order);
+        em.merge(orders);
         em.getTransaction().commit();
         em.close();
         return new OrderLineDTO(orderLine);
@@ -64,7 +63,7 @@ public class OrderLineDAO {
         em.getTransaction().begin();
         OrderLine orderLine = em.find(OrderLine.class, id);
         if (orderLine != null) {
-            orderLine.setOrder(orderLineDTO.getOrder());
+            orderLine.setOrders(orderLineDTO.getOrders());
             orderLine.setPizza(orderLineDTO.getPizza());
             orderLine.setQuantity(orderLineDTO.getQuantity());
             orderLine.setPrice(orderLineDTO.getPrice());
@@ -80,7 +79,7 @@ public class OrderLineDAO {
         OrderLine orderLine = em.find(OrderLine.class, id);
         if (orderLine != null) {
             em.remove(orderLine); // Slet orderLine
-            em.remove(orderLine.getOrder().getOrderLines().remove(orderLine)); // Sletter orderLine fra order
+            em.remove(orderLine.getOrders().getOrderLines().remove(orderLine)); // Sletter orderLine fra order
         }
         em.getTransaction().commit();
         em.close();

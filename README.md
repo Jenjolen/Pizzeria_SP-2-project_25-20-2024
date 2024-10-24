@@ -62,19 +62,19 @@ Som Sælgeren / Admin kan det omhandle ordreoversigt, ( Lav pizza, Se pizza list
 
 {
 
-	"order\_id": Number,
+	"orders\_id": Number,
 
- 	"order\_date": Number,
+ 	"orders\_date": Number,
 
  	"total\_price": Number,
 
  	"user\_id": Number,      // Foreign key to User
 
-	"order\_item\_list": \[
+	"orders\_item\_list": \[
 
 		{
 
-			"order\_item\_id": Number,
+			"orders\_item\_id": Number,
 
 			"pizza\_id": Number,  // Foreign key to Pizza
 
@@ -86,7 +86,7 @@ Som Sælgeren / Admin kan det omhandle ordreoversigt, ( Lav pizza, Se pizza list
 
 		{
 
-			"order\_item\_id": Number,
+			"orders\_item\_id": Number,
 
 			"pizza\_id": Number,  // Foreign key to Pizza
 

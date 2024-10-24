@@ -2,7 +2,7 @@ package dat.daos.impl;
 
 import dat.dtos.OrderDTO;
 import dat.dtos.OrderLineDTO;
-import dat.entities.Order;
+import dat.entities.Orders;
 import dat.entities.OrderLine;
 import dat.security.entities.User;
 import jakarta.persistence.EntityManager;
@@ -30,26 +30,26 @@ public class OrderDAO {
     public OrderDTO create(OrderDTO orderDTO) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Order order = new Order(orderDTO);
+        Orders orders = new Orders(orderDTO);
         User user = em.find(User.class, orderDTO.getUser().getUsername());
-        order.setUser(user);
-        em.persist(order);
+        orders.setUser(user);
+        em.persist(orders);
         em.getTransaction().commit();
         em.close();
-        return new OrderDTO(order);
+        return new OrderDTO(orders);
     }
 
     public OrderDTO read(int id) {
         EntityManager em = emf.createEntityManager();
-        Order order = em.find(Order.class, id);
+        Orders orders = em.find(Orders.class, id);
         em.close();
-        return order != null ? new OrderDTO(order) : null; // Returner OrderDTO
+        return orders != null ? new OrderDTO(orders) : null; // Returner OrderDTO
     }
 
     public List<OrderDTO> readAll() {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Order> query = em.createQuery("SELECT o FROM Order o", Order.class);
-        List<Order> orders = query.getResultList();
+        TypedQuery<Orders> query = em.createQuery("SELECT o FROM Orders o", Orders.class);
+        List<Orders> orders = query.getResultList();
         em.close();
         return orders.stream().map(OrderDTO::new).collect(Collectors.toList()); // Konverter til OrderDTO
     }
@@ -57,28 +57,28 @@ public class OrderDAO {
     public OrderDTO update(Integer id, OrderDTO orderDTO) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Order order = em.find(Order.class, id);
-        if (order != null) {
-            order.setOrderDate(orderDTO.getOrderDate());
-            order.setOrderPrice(orderDTO.getOrderPrice());
-            order.getOrderLines().clear();
+        Orders orders = em.find(Orders.class, id);
+        if (orders != null) {
+            orders.setOrderDate(orderDTO.getOrderDate());
+            orders.setOrderPrice(orderDTO.getOrderPrice());
+            orders.getOrderLines().clear();
             for (OrderLineDTO orderLineDTO : orderDTO.getOrderLines()) {
-                order.getOrderLines().add(new OrderLine(orderLineDTO));
+                orders.getOrderLines().add(new OrderLine(orderLineDTO));
             }
             User user = em.find(User.class, orderDTO.getUser().getUsername());
-            order.setUser(user);
-            em.merge(order);
+            orders.setUser(user);
+            em.merge(orders);
         }
         em.getTransaction().commit();
         em.close();
-        return new OrderDTO(order);}
+        return new OrderDTO(orders);}
 
     public void delete(int id) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Order order = em.find(Order.class, id);
-        if (order != null) {
-            em.remove(order); // Slet order
+        Orders orders = em.find(Orders.class, id);
+        if (orders != null) {
+            em.remove(orders); // Slet order
         }
         em.getTransaction().commit();
         em.close();
@@ -86,9 +86,9 @@ public class OrderDAO {
 
     public boolean validatePrimaryKey(Integer id) {
         EntityManager em = emf.createEntityManager();
-        Order order = em.find(Order.class, id);
+        Orders orders = em.find(Orders.class, id);
         em.close();
-        return order != null; // Returner true, hvis order findes
+        return orders != null; // Returner true, hvis order findes
     }
 
 }

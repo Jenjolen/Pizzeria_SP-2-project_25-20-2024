@@ -36,7 +36,9 @@ public class OrderLineDAO {
         Pizza pizza = em.find(Pizza.class, orderLineDTO.getPizza().getId());
         orderLine.setOrder(order);
         orderLine.setPizza(pizza);
+        order.getOrderLines().add(orderLine);
         em.persist(orderLine);
+        em.merge(order);
         em.getTransaction().commit();
         em.close();
         return new OrderLineDTO(orderLine);

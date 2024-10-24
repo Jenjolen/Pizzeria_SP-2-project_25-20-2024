@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class FileWriterUtil {
+public class FileWriterUtil { // Kommentar så jeg kan commit :)
 
     private static final String ORDERS_FILE = "orders.json";
     private static final String ORDER_LINES_FILE = "order_lines.json";

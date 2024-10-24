@@ -59,6 +59,14 @@ public class OrderLineDAO {
         return orders.stream().map(OrderLineDTO::new).collect(Collectors.toList()); // Konverter til OrderLineDTO
     }
 
+    public List<OrderLineDTO> readAllOrderLinesByOrder(Integer orderId) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<OrderLine> query = em.createQuery("SELECT o FROM OrderLine o WHERE o.order.id = :orderId", OrderLine.class);
+        List<OrderLine> orderLines = query.getResultList();
+        em.close();
+        return orderLines.stream().map(OrderLineDTO::new).collect(Collectors.toList());
+    }
+
     public OrderLineDTO update(Integer id, OrderLineDTO orderLineDTO) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();

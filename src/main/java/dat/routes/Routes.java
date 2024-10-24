@@ -7,14 +7,13 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class Routes {
 
     private final PizzaRoute pizzaRoute = new PizzaRoute();
-    private final HotelRoute hotelRoute = new HotelRoute();
-    private final RoomRoute roomRoute = new RoomRoute();
+    private final OrderRoute orderRoute = new OrderRoute();
 
     public EndpointGroup getRoutes() {
         return () -> {
             path("/pizzas", pizzaRoute.getRoutes());
-//            path("/hotels", hotelRoute.getRoutes());
-//            path("/rooms", roomRoute.getRoutes());
+            path("/orders", orderRoute.getRoutes());
+
         };
     }
 }

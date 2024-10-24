@@ -59,7 +59,8 @@ public class OrderController implements IController<OrderDTO, Integer> {
         ctx.res().setStatus(204);
     }
 
-    public void addOrderLine(Context ctx, Integer orderId) {
+    public void addOrderLine(Context ctx) {
+        int orderId = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         OrderLineDTO orderLineDTO = orderLineDAO.create(ctx.bodyAsClass(OrderLineDTO.class));
         OrderDTO orderDTO = dao.read(orderId);
         orderDTO.getOrderLines().add(orderLineDTO);
@@ -68,17 +69,42 @@ public class OrderController implements IController<OrderDTO, Integer> {
         ctx.json(orderDTO, OrderDTO.class);
     }
 
-    public void updateOrderLine(Context ctx, Integer orderId, Integer orderLineId) {
+    public void readOrderLine (Context ctx) {
+        int orderLineId = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+        OrderLineDTO orderLineDTO = orderLineDAO.read(orderLineId);
+        ctx.res().setStatus(200);
+        ctx.json(orderLineDTO, OrderLineDTO.class);
+    }
+
+    public void readAllOrderLines (Context ctx) {
+        List<OrderLineDTO> orderLineDTOS = orderLineDAO.readAll();
+        ctx.res().setStatus(200);
+        ctx.json(orderLineDTOS, OrderLineDTO.class);
+    }
+
+    public void readAllOrderLinesByOrder (Context ctx) {
+        int orderId = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+        List<OrderLineDTO> orderLineDTOS = orderLineDAO.readAllOrderLinesByOrder(orderId);
+        ctx.res().setStatus(200);
+        ctx.json(orderLineDTOS, OrderLineDTO.class);
+    }
+
+    public void updateOrderLine(Context ctx) {
+        int orderLineId = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
         OrderLineDTO orderLineDTO = orderLineDAO.update(orderLineId, ctx.bodyAsClass(OrderLineDTO.class));
+        int orderId = orderLineDTO.getOrder().getId();
         OrderDTO orderDTO = dao.read(orderId);
         dao.update(orderId, orderDTO);
         ctx.res().setStatus(200);
         ctx.json(orderDTO, OrderDTO.class);
     }
 
-    public void deleteOrderLine(Context ctx, Integer orderId, Integer orderLineId) {
+    public void deleteOrderLine(Context ctx) {
+        int orderLineId = ctx.pathParamAsClass("id", Integer.class).check(this::validatePrimaryKey, "Not a valid id").get();
+        OrderLineDTO orderLineDTO = orderLineDAO.read(orderLineId);
+        int orderId = orderLineDTO.getOrder().getId();
         OrderDTO orderDTO = dao.read(orderId);
-        orderDTO.getOrderLines().removeIf(orderLineDTO -> orderLineDTO.getId().equals(orderLineId));
+        orderDTO.getOrderLines().removeIf(o -> orderLineDTO.getId().equals(orderLineId)); // tjekker om orderLineId matcher et id i orderDTO - løber alle Order's orderlines
         dao.update(orderId, orderDTO);
         ctx.res().setStatus(204);
     }
